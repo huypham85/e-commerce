@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="50dp"
+    tools:context=".screens.auth.RegisterActivity">
+
+    <EditText
+        android:id="@+id/gmail_edit_txt"
+        android:hint="Gmail"
+        app:layout_constraintBottom_toTopOf="@id/address_edit_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:padding="8dp"
+        tools:ignore="LabelFor,TextFields" />
+
+    <EditText
+        android:id="@+id/address_edit_txt"
+        android:hint="Địa chỉ"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gmail_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:importantForAutofill="no"
+        android:padding="8dp"
+        tools:ignore="LabelFor,TextFields" />
+
+    <EditText
+        android:id="@+id/usernameEdt"
+        android:hint="Username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:importantForAutofill="no"
+        android:padding="8dp"
+        tools:ignore="LabelFor,TextFields" />
+
+    <EditText
+        android:id="@+id/passwordEdt"
+        android:hint="Password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usernameEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:importantForAutofill="no"
+        android:padding="8dp"
+        tools:ignore="LabelFor,TextFields" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEdt"
+        android:layout_width="120dp"
+        android:text="Đăng ký"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
