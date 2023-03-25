@@ -1,7 +1,6 @@
 package com.example.e_commerce.screens.home;
 
 import static androidx.navigation.Navigation.findNavController;
-
 import static com.example.e_commerce.screens.home.HomeProductAdapter.CompanionObject.ITEM_KEY;
 
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.e_commerce.R;
@@ -59,7 +57,7 @@ public class HomeFragment extends Fragment implements OnClickProductItem {
     @Override
     public void clickProduct(ProductModel productModel) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ITEM_KEY,productModel);
-        findNavController(getView()).navigate(R.id.action_homeFragment_to_productDetailFragment,bundle);
+        bundle.putParcelable(ITEM_KEY, productModel);
+        findNavController(getView()).navigate(R.id.action_homeFragment_to_productDetailFragment, bundle);
     }
 }

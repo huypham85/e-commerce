@@ -6,19 +6,22 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class ProductModel implements Parcelable {
+    public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
+        @Override
+        public ProductModel createFromParcel(Parcel in) {
+            return new ProductModel(in);
+        }
+
+        @Override
+        public ProductModel[] newArray(int size) {
+            return new ProductModel[size];
+        }
+    };
     String productName;
     Float productPrice;
     String productStatus;
     String productImageURL;
     String productDesc;
-
-    public String getProductDesc() {
-        return productDesc;
-    }
-
-    public void setProductDesc(String productDesc) {
-        this.productDesc = productDesc;
-    }
 
     public ProductModel(String productName, Float productPrice, String productStatus, String productImageURL, String productDesc) {
         this.productName = productName;
@@ -39,17 +42,13 @@ public class ProductModel implements Parcelable {
         productImageURL = in.readString();
     }
 
-    public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
-        @Override
-        public ProductModel createFromParcel(Parcel in) {
-            return new ProductModel(in);
-        }
+    public String getProductDesc() {
+        return productDesc;
+    }
 
-        @Override
-        public ProductModel[] newArray(int size) {
-            return new ProductModel[size];
-        }
-    };
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
 
     public String getProductName() {
         return productName;

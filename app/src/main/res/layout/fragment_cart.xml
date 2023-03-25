@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        tools:context=".screens.home.HomeFragment">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/homeTxt"
@@ -45,19 +43,77 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartRcv"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="400dp"
             android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchEdt" />
 
         <ImageView
+            android:id="@+id/lineImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:src="@drawable/img_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cartRcv" />
 
+        <TextView
+            android:id="@+id/sumTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Tổng: "
+            android:textColor="@color/red"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lineImg" />
+
+        <TextView
+            android:id="@+id/totalPriceTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="100.000"
+            android:textColor="@color/green"
+            android:textSize="25dp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="@id/sumTxt"
+            app:layout_constraintTop_toBottomOf="@id/lineImg" />
+
+        <TextView
+            android:id="@+id/vndTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="vnd"
+            android:textColor="@color/yellow"
+            android:textSize="25dp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="@id/totalPriceTxt"
+            app:layout_constraintTop_toBottomOf="@id/lineImg" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/checkoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Thanh toán ngay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/totalPriceTxt" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/orderBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Đặt hàng"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/totalPriceTxt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
