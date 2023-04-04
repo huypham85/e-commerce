@@ -1,7 +1,7 @@
 package com.example.e_commerce.screens.cart;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,6 @@ import com.example.e_commerce.R;
 import com.example.e_commerce.model.CartItemModel;
 
 import java.util.List;
-import java.util.logging.Handler;
 
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.ItemViewHolder> {
 
@@ -61,6 +60,11 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         notifyItemChanged(position);
     }
 
+    void setDataAfterRemove(List<CartItemModel> list) {
+        setProducts(list);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -78,10 +82,6 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     @Override
     public int getItemCount() {
         return products.size();
-    }
-
-    public static class CompanionObject {
-        public static final String ITEM_KEY = "PRODUCT_ITEM";
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -103,6 +103,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             deleteButton = itemView.findViewById(R.id.delete_button);
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(CartItemModel product) {
 
             Glide.with(context)
@@ -121,11 +122,15 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             subtractButton.setOnClickListener(v -> cartItemListener.decreaseQuantity(position));
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                product.setChecked(isChecked);
                 if (isChecked) {
-                    cartItemListener.onSelectCartItem(product.getQuantity() * product.getProductPrice(), position, isChecked);
+                    cartItemListener.onSelectCartItem(product.getQuantity() * product.getProductPrice(),
+                            position,
+                            isChecked);
                 } else {
-                    cartItemListener.onSelectCartItem(-1 * (product.getQuantity() * product.getProductPrice()), position, isChecked);
+                    cartItemListener.onSelectCartItem(-1 * (product.getQuantity() * product.getProductPrice()),
+                            position,
+                            isChecked);
+
                 }
             });
 

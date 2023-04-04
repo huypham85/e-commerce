@@ -1,5 +1,6 @@
 package com.example.e_commerce.di;
 
+import com.example.e_commerce.Common;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 
@@ -16,17 +17,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 @InstallIn(SingletonComponent.class)
 public class NetworkModule {
+    @Provides
+    @Singleton
+    OkHttpClient provideOkHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        return builder.build();
+    }
+
     @Singleton
     @Provides
     public Retrofit provideRetrofit(
             OkHttpClient client
     ) {
         GsonBuilder gsonBuilder = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setLenient();
         GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gsonBuilder.create());
         return new Retrofit.Builder()
-                .baseUrl("Consts.BASE_URL")
+                .baseUrl(Common.baseURL)
                 .addConverterFactory(gsonConverterFactory)
                 .client(client)
                 .build();

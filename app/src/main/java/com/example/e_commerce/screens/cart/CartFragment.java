@@ -34,7 +34,7 @@ public class CartFragment extends Fragment implements CartItemListener {
                     "con hang",
                     "https://ih1.redbubble.net/image.4646407321.9310/ssrco,classic_tee,mens,fafafa:ca443f4786,front_alt,square_product,600x600.jpg",
                     "Áo giữ nhiệt cao cấp, chất liệu thun lụa lạnh co dãn 4 chiều",
-                    2,
+                    i + 1,
                     false);
             cartItemsList.add(productModel);
         }
@@ -88,15 +88,31 @@ public class CartFragment extends Fragment implements CartItemListener {
     @Override
     public void deleteItem(int position) {
         cartItemsList.remove(position);
-        cartProductAdapter.setData(cartItemsList, position);
+        cartProductAdapter.setDataAfterRemove(cartItemsList);
+        cartProductAdapter.notifyItemRemoved(position);
     }
 
     @Override
     public void onSelectCartItem(float price, int position, boolean isChecked) {
-//        CartItemModel item = cartItemsList.get(position);
-//        item.setChecked(isChecked);
-//        cartProductAdapter.setData(cartItemsList, position);
+
+        CartItemModel item = cartItemsList.get(position);
+        cartItemsList.set(position, new CartItemModel(
+                        item.getProductName(),
+                        item.getProductPrice(),
+                        item.getProductStatus(),
+                        item.getProductImageURL(),
+                        item.getProductDesc(),
+                        item.getQuantity(),
+                        isChecked
+                )
+        );
+        cartProductAdapter.setData(cartItemsList, position);
         totalPrice += price;
         binding.totalPriceTxt.setText(totalPrice.toString());
+    }
+
+    @Override
+    public void chooseCartItem(int position) {
+
     }
 }

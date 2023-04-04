@@ -8,9 +8,9 @@
     tools:context=".screens.auth.RegisterActivity">
 
     <EditText
-        android:id="@+id/gmail_edit_txt"
-        android:hint="Gmail"
-        app:layout_constraintBottom_toTopOf="@id/address_edit_txt"
+        android:id="@+id/name_edit_txt"
+        android:hint="Name"
+        app:layout_constraintBottom_toTopOf="@id/email_edit_txt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,11 +21,11 @@
         tools:ignore="LabelFor,TextFields" />
 
     <EditText
-        android:id="@+id/address_edit_txt"
-        android:hint="Địa chỉ"
+        android:id="@+id/email_edit_txt"
+        android:hint="Mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gmail_edit_txt"
+        app:layout_constraintTop_toBottomOf="@id/name_edit_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -34,37 +34,26 @@
         tools:ignore="LabelFor,TextFields" />
 
     <EditText
-        android:id="@+id/usernameEdt"
-        android:hint="Username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address_edit_txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:importantForAutofill="no"
-        android:padding="8dp"
-        tools:ignore="LabelFor,TextFields" />
-
-    <EditText
-        android:id="@+id/passwordEdt"
+        android:id="@+id/password_edt"
         android:hint="Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/usernameEdt"
+        app:layout_constraintTop_toBottomOf="@id/email_edit_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:importantForAutofill="no"
         android:padding="8dp"
+        android:inputType="textPassword"
         tools:ignore="LabelFor,TextFields" />
 
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_btn"
+        android:id="@+id/register_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordEdt"
+        app:layout_constraintTop_toBottomOf="@id/password_edt"
         android:layout_width="120dp"
         android:text="Đăng ký"
         android:layout_height="wrap_content"

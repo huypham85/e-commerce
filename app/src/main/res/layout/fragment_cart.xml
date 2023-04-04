@@ -96,16 +96,6 @@
             app:layout_constraintTop_toBottomOf="@id/lineImg" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/checkoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Thanh toán ngay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/totalPriceTxt" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/orderBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,6 +103,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="Đặt hàng"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/totalPriceTxt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

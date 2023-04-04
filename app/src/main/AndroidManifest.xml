@@ -11,11 +11,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name=".MyApp"
         android:theme="@style/Theme.Ecommerce"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".screens.auth.RegisterActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".screens.auth.LoginActivity"
             android:exported="true">
