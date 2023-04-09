@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment implements OnClickProductItem {
     }
 
     private void setUpProductRecyclerView() {
-        Call<ResponseAPI<GetProductResponse>> call = homeService.searchProducts(0, 10, new SearchProductRequest(null, "asc", null, null));
+        Call<ResponseAPI<GetProductResponse>> call = homeService.searchProducts(0, 100, new SearchProductRequest(null, "asc", null, null));
         call.enqueue(new Callback<ResponseAPI<GetProductResponse>>() {
             @Override
             public void onResponse(Call<ResponseAPI<GetProductResponse>> call, Response<ResponseAPI<GetProductResponse>> response) {
