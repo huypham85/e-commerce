@@ -2,16 +2,14 @@ package com.example.e_commerce.screens.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.e_commerce.MainActivity;
 import com.example.e_commerce.databinding.ActivityRegisterBinding;
-import com.example.e_commerce.network.model.RegisterBody;
-import com.example.e_commerce.network.model.RegisterResponse;
+import com.example.e_commerce.network.model.request.RegisterBody;
+import com.example.e_commerce.network.model.response.RegisterResponse;
 import com.example.e_commerce.network.service.AuthService;
 
 import javax.inject.Inject;

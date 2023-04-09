@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.e_commerce.network.model.response.product.ProductResponse;
+
 public class ProductModel implements Parcelable {
     public static final Creator<ProductModel> CREATOR = new Creator<ProductModel>() {
         @Override
@@ -17,29 +19,45 @@ public class ProductModel implements Parcelable {
             return new ProductModel[size];
         }
     };
+    long id;
     String productName;
-    Float productPrice;
+    long productPrice;
     String productStatus;
     String productImageURL;
     String productDesc;
-
-    public ProductModel(String productName, Float productPrice, String productStatus, String productImageURL, String productDesc) {
+    public ProductModel(String productName, long productPrice, String productStatus, String productImageURL, String productDesc) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productStatus = productStatus;
         this.productImageURL = productImageURL;
         this.productDesc = productDesc;
     }
+    public ProductModel(ProductResponse productResponse) {
+        this.id = productResponse.getID();
+        this.productName = productResponse.getProductName();
+        this.productPrice = productResponse.getProductCost();
+        this.productStatus = String.valueOf(productResponse.getProductStatus());
+        this.productImageURL = "https://ih1.redbubble.net/image.4646407321.9310/ssrco,classic_tee,mens,fafafa:ca443f4786,front_alt,square_product,600x600.jpg";
+        this.productDesc = productResponse.getProductDescription();
+    }
 
     protected ProductModel(Parcel in) {
         productName = in.readString();
         if (in.readByte() == 0) {
-            productPrice = null;
+            productPrice = Long.parseLong(null);
         } else {
-            productPrice = in.readFloat();
+            productPrice = in.readLong();
         }
         productStatus = in.readString();
         productImageURL = in.readString();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getProductDesc() {
@@ -58,11 +76,11 @@ public class ProductModel implements Parcelable {
         this.productName = productName;
     }
 
-    public Float getProductPrice() {
+    public long getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(Float productPrice) {
+    public void setProductPrice(long productPrice) {
         this.productPrice = productPrice;
     }
 
@@ -90,12 +108,8 @@ public class ProductModel implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(productName);
-        if (productPrice == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeFloat(productPrice);
-        }
+        dest.writeByte((byte) 1);
+        dest.writeLong(productPrice);
         dest.writeString(productStatus);
         dest.writeString(productImageURL);
         dest.writeString(productDesc);

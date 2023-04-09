@@ -19,13 +19,9 @@ import java.util.List;
 
 public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ItemViewHolder> {
 
-    public static class CompanionObject {
-        public static final String ITEM_KEY = "PRODUCT_ITEM";
-    }
     public OnClickProductItem onClickProductItem;
     private List<ProductModel> products;
     private Context context;
-
     public HomeProductAdapter(List<ProductModel> products, Context context) {
         this.products = products;
         this.context = context;
@@ -50,6 +46,10 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         return products.size();
     }
 
+    public static class CompanionObject {
+        public static final String ITEM_KEY = "PRODUCT_ITEM";
+    }
+
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleTextView;
@@ -72,7 +72,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
                     .apply(new RequestOptions().override(360, 480))
                     .into(imageView);
             titleTextView.setText(product.getProductName());
-            priceTextView.setText(product.getProductPrice().toString());
+            priceTextView.setText(String.valueOf(product.getProductPrice()));
             statusTextView.setText(product.getProductStatus());
         }
     }

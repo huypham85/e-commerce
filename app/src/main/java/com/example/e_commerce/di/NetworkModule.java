@@ -1,7 +1,7 @@
 package com.example.e_commerce.di;
 
-import com.example.e_commerce.Common;
-import com.google.gson.FieldNamingPolicy;
+import com.example.e_commerce.utils.Common;
+import com.example.e_commerce.utils.UserManager;
 import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
@@ -11,6 +11,8 @@ import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -19,8 +21,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkModule {
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient() {
+    OkHttpClient provideOkHttpClient(
+            UserManager userManager
+    ) {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(chain -> {
+            Request originalRequest = chain.request();
+            Request.Builder builder1 = originalRequest.newBuilder().addHeader("Authorization", "Bearer " + userManager.getAccessToken());
+            Request newRequest = builder1.build();
+            return chain.proceed(newRequest);
+        });
+
+        builder.addInterceptor(loggingInterceptor);
+
         return builder.build();
     }
 

@@ -30,7 +30,7 @@ public class CartFragment extends Fragment implements CartItemListener {
 
         for (int i = 0; i < 15; i++) {
             CartItemModel productModel = new CartItemModel("Ao thun",
-                    10000f,
+                    10000L,
                     "con hang",
                     "https://ih1.redbubble.net/image.4646407321.9310/ssrco,classic_tee,mens,fafafa:ca443f4786,front_alt,square_product,600x600.jpg",
                     "Áo giữ nhiệt cao cấp, chất liệu thun lụa lạnh co dãn 4 chiều",

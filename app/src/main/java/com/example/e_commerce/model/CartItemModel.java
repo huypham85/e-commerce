@@ -5,13 +5,13 @@ public class CartItemModel extends ProductModel {
 
     boolean isChecked;
 
-    public CartItemModel(String productName, Float productPrice, String productStatus, String productImageURL, String productDesc, int quantity, boolean isChecked) {
+    public CartItemModel(String productName, long productPrice, String productStatus, String productImageURL, String productDesc, int quantity, boolean isChecked) {
         super(productName, productPrice, productStatus, productImageURL, productDesc);
         this.quantity = quantity;
         this.isChecked = isChecked;
     }
 
-    public CartItemModel(String productName, Float productPrice, String productStatus, String productImageURL, String productDesc) {
+    public CartItemModel(String productName, long productPrice, String productStatus, String productImageURL, String productDesc) {
         super(productName, productPrice, productStatus, productImageURL, productDesc);
     }
 

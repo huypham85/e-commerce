@@ -8,9 +8,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.e_commerce.MainActivity;
+import com.example.e_commerce.utils.UserManager;
 import com.example.e_commerce.databinding.ActivityLoginBinding;
-import com.example.e_commerce.network.model.LoginRequest;
-import com.example.e_commerce.network.model.LoginResponse;
+import com.example.e_commerce.network.model.request.LoginRequest;
+import com.example.e_commerce.network.model.response.LoginResponse;
 import com.example.e_commerce.network.service.AuthService;
 
 import javax.inject.Inject;
@@ -25,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     @Inject
     AuthService authService;
+    @Inject
+    UserManager userManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
@@ -40,7 +43,8 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.isSuccessful()) {
-                                System.out.println(response.body().getAccessToken());
+                                userManager.saveAccessToken(response.body().getAccessToken());
+                                System.out.println("Access token " + userManager.getAccessToken());
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                             } else {

@@ -32,7 +32,7 @@ public class SearchFragment extends Fragment implements OnClickProductItem {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         List<ProductModel> productModelList = new ArrayList<>();
         ProductModel productModel = new ProductModel("Ao thun",
-                10000f,
+                10000L,
                 "con hang",
                 "https://ih1.redbubble.net/image.4646407321.9310/ssrco,classic_tee,mens,fafafa:ca443f4786,front_alt,square_product,600x600.jpg",
                 "Áo giữ nhiệt cao cấp, chất liệu thun lụa lạnh co dãn 4 chiều");

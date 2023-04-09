@@ -111,7 +111,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                     .apply(new RequestOptions().override(360, 480))
                     .into(imageView);
             titleTextView.setText(product.getProductName());
-            priceTextView.setText(product.getProductPrice().toString());
+            priceTextView.setText(String.valueOf(product.getProductPrice()));
             quantityTextView.setText(String.valueOf(product.getQuantity()));
             checkBox.setChecked(product.isChecked());
         }

@@ -1,4 +1,4 @@
-package com.example.e_commerce.network.model;
+package com.example.e_commerce.network.model.request;
 
 public class LoginRequest {
     String email, password;
