@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.example.e_commerce.R;
 import com.example.e_commerce.utils.UserManager;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;

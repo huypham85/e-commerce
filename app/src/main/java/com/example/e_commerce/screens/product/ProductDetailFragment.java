@@ -14,7 +14,7 @@ import com.example.e_commerce.databinding.FragmentProductDetailBinding;
 import com.example.e_commerce.model.ProductModel;
 import com.example.e_commerce.network.model.response.ResponseAPI;
 import com.example.e_commerce.network.model.response.product.ProductResponse;
-import com.example.e_commerce.network.service.HomeService;
+import com.example.e_commerce.network.service.ProductService;
 
 import javax.inject.Inject;
 
@@ -26,7 +26,7 @@ import retrofit2.Response;
 @AndroidEntryPoint
 public class ProductDetailFragment extends Fragment {
     @Inject
-    HomeService homeService;
+    ProductService productService;
     private FragmentProductDetailBinding binding;
 
     @Override
@@ -38,7 +38,7 @@ public class ProductDetailFragment extends Fragment {
         if (getArguments() != null) {
             System.out.println("bundle" + getArguments());
             productModel = getArguments().getParcelable(ITEM_KEY);
-            Call<ResponseAPI<ProductResponse>> call = homeService.getProductDetail(productModel.getId());
+            Call<ResponseAPI<ProductResponse>> call = productService.getProductDetail(productModel.getId());
             call.enqueue(new Callback<ResponseAPI<ProductResponse>>() {
                 @Override
                 public void onResponse(Call<ResponseAPI<ProductResponse>> call, Response<ResponseAPI<ProductResponse>> response) {

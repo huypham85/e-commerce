@@ -1,7 +1,7 @@
 package com.example.e_commerce.di;
 
 import com.example.e_commerce.network.service.AuthService;
-import com.example.e_commerce.network.service.HomeService;
+import com.example.e_commerce.network.service.ProductService;
 
 import javax.inject.Singleton;
 
@@ -16,8 +16,8 @@ import retrofit2.Retrofit;
 public class ServiceModule {
     @Singleton
     @Provides
-    public HomeService provideHomeService(Retrofit retrofit) {
-        return retrofit.create(HomeService.class);
+    public ProductService provideHomeService(Retrofit retrofit) {
+        return retrofit.create(ProductService.class);
     }
 
     @Singleton
