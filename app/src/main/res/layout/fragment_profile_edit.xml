@@ -32,16 +32,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <TextView
-        android:id="@+id/name_info"
+    <EditText
+        android:id="@+id/edit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginTop="100dp"
-        android:text="Trần Ngọc Minh Đức"
+        android:text="FullName"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
 
     <TextView
         android:id="@+id/email"
@@ -54,16 +54,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
-    <TextView
-        android:id="@+id/email_info"
+    <EditText
+        android:id="@+id/edit_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginTop="40dp"
-        android:text="minhduc01@gmail.com"
+        android:text="Email"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_info" />
+        app:layout_constraintTop_toBottomOf="@id/edit_name" />
 
     <TextView
         android:id="@+id/phone_number"
@@ -76,16 +76,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
-    <TextView
-        android:id="@+id/phone_number_info"
+    <EditText
+        android:id="@+id/edit_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginTop="40dp"
-        android:text="1324567980"
+        android:text="Phone"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_info" />
+        app:layout_constraintTop_toBottomOf="@id/edit_email" />
 
     <TextView
         android:id="@+id/address"
@@ -98,25 +98,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number"/>
 
-    <TextView
-        android:id="@+id/address_info"
+    <EditText
+        android:id="@+id/edit_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginTop="40dp"
-        android:text="Văn Quán, Hà Đông, Hà Nội"
+        android:text="Address"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number_info" />
+        app:layout_constraintTop_toBottomOf="@id/edit_phone" />
 
     <Button
         android:id="@+id/edit_user_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chỉnh sửa"
-        android:backgroundTint="@color/teal_200"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:enabled="false"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +125,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cập nhật"
-        android:enabled="false"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
         android:layout_marginStart="50dp"
         android:layout_marginTop="100dp"
         android:textAllCaps="false"
