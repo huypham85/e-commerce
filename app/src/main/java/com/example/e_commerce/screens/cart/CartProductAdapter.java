@@ -16,17 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.e_commerce.R;
-import com.example.e_commerce.model.CartItemModel;
+import com.example.e_commerce.network.model.response.cart.CartItem;
 
 import java.util.List;
 
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.ItemViewHolder> {
 
     CartItemListener cartItemListener;
-    private List<CartItemModel> products;
+    private List<CartItem> products;
     private Context context;
 
-    public CartProductAdapter(List<CartItemModel> products, Context context) {
+    public CartProductAdapter(List<CartItem> products, Context context) {
         this.products = products;
         this.context = context;
     }
@@ -39,11 +39,11 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         this.cartItemListener = cartItemListener;
     }
 
-    public List<CartItemModel> getProducts() {
+    public List<CartItem> getProducts() {
         return products;
     }
 
-    public void setProducts(List<CartItemModel> products) {
+    public void setProducts(List<CartItem> products) {
         this.products = products;
     }
 
@@ -55,12 +55,12 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         this.context = context;
     }
 
-    void setData(List<CartItemModel> list, int position) {
+    void setData(List<CartItem> list, int position) {
         setProducts(list);
         notifyItemChanged(position);
     }
 
-    void setDataAfterRemove(List<CartItemModel> list) {
+    void setDataAfterRemove(List<CartItem> list) {
         setProducts(list);
         notifyDataSetChanged();
     }
@@ -74,7 +74,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        CartItemModel item = products.get(position);
+        CartItem item = products.get(position);
         holder.bind(item);
         holder.onClick(item, position);
     }
@@ -104,30 +104,29 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(CartItemModel product) {
+        public void bind(CartItem product) {
 
             Glide.with(context)
-                    .load(product.getProductImageURL())
+                    .load(product.getProductFilePath())
                     .apply(new RequestOptions().override(360, 480))
                     .into(imageView);
             titleTextView.setText(product.getProductName());
-            priceTextView.setText(String.valueOf(product.getProductPrice()));
+            priceTextView.setText(String.valueOf(product.getProductCost()));
             quantityTextView.setText(String.valueOf(product.getQuantity()));
-            checkBox.setChecked(product.isChecked());
         }
 
-        private void onClick(CartItemModel product, int position) {
+        private void onClick(CartItem product, int position) {
             addButton.setOnClickListener(v -> cartItemListener.increaseQuantity(position));
 
             subtractButton.setOnClickListener(v -> cartItemListener.decreaseQuantity(position));
 
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    cartItemListener.onSelectCartItem(product.getQuantity() * product.getProductPrice(),
+                    cartItemListener.onSelectCartItem(product.getQuantity() * product.getProductCost(),
                             position,
                             isChecked);
                 } else {
-                    cartItemListener.onSelectCartItem(-1 * (product.getQuantity() * product.getProductPrice()),
+                    cartItemListener.onSelectCartItem(-1 * (product.getQuantity() * product.getProductCost()),
                             position,
                             isChecked);
 

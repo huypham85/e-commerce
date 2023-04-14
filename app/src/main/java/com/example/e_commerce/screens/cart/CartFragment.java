@@ -9,80 +9,98 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.e_commerce.databinding.FragmentCartBinding;
-import com.example.e_commerce.model.CartItemModel;
+import com.example.e_commerce.network.model.response.ResponseAPI;
+import com.example.e_commerce.network.model.response.cart.CartItem;
+import com.example.e_commerce.network.service.CartService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+@AndroidEntryPoint
 public class CartFragment extends Fragment implements CartItemListener {
-    List<CartItemModel> cartItemsList;
+    List<CartItem> cartItemsList;
     CartProductAdapter cartProductAdapter;
     Float totalPrice;
     private FragmentCartBinding binding;
+    @Inject
+    CartService cartService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentCartBinding.inflate(inflater, container, false);
-
-        cartItemsList = new ArrayList<>();
-
-        for (int i = 0; i < 15; i++) {
-            CartItemModel productModel = new CartItemModel("Ao thun",
-                    10000L,
-                    "con hang",
-                    "https://ih1.redbubble.net/image.4646407321.9310/ssrco,classic_tee,mens,fafafa:ca443f4786,front_alt,square_product,600x600.jpg",
-                    "Áo giữ nhiệt cao cấp, chất liệu thun lụa lạnh co dãn 4 chiều",
-                    i + 1,
-                    false);
-            cartItemsList.add(productModel);
-        }
+        setUpCartItems();
 
         totalPrice = 0f;
         binding.totalPriceTxt.setText(totalPrice.toString());
-        cartProductAdapter = new CartProductAdapter(cartItemsList, requireContext());
-        cartProductAdapter.setCartItemListener(this);
-        binding.cartRcv.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.cartRcv.setAdapter(cartProductAdapter);
+
 
         return binding.getRoot();
     }
 
+    private void setUpCartItems() {
+        Call<ResponseAPI<List<CartItem>>> call = cartService.getCartItems();
+        call.enqueue(new Callback<ResponseAPI<List<CartItem>>>() {
+            @Override
+            public void onResponse(Call<ResponseAPI<List<CartItem>>> call, Response<ResponseAPI<List<CartItem>>> response) {
+                if (response.isSuccessful()) {
+                    List<CartItem> cartItems = response.body().getData();
+                    cartProductAdapter = new CartProductAdapter(cartItems, requireContext());
+                    cartProductAdapter.setCartItemListener(CartFragment.this);
+                    binding.cartRcv.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    binding.cartRcv.setAdapter(cartProductAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseAPI<List<CartItem>>> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public void increaseQuantity(int position) {
-        CartItemModel item = cartItemsList.get(position);
-        int currentQuantity = item.getQuantity();
-        cartItemsList.set(position, new CartItemModel(
-                        item.getProductName(),
-                        item.getProductPrice(),
-                        item.getProductStatus(),
-                        item.getProductImageURL(),
-                        item.getProductDesc(),
-                        currentQuantity + 1,
-                        item.isChecked()
-                )
-        );
-        cartProductAdapter.setData(cartItemsList, position);
+//        CartItem item = cartItemsList.get(position);
+//        int currentQuantity = item.getQuantity();
+//        cartItemsList.set(position, new CartItem(
+//                        item.getProductName(),
+//                        item.getProductPrice(),
+//                        item.getProductStatus(),
+//                        item.getProductImageURL(),
+//                        item.getProductDesc(),
+//                        currentQuantity + 1,
+//                        item.isChecked()
+//                )
+//        );
+//        cartProductAdapter.setData(cartItemsList, position);
     }
 
     @Override
     public void decreaseQuantity(int position) {
-        CartItemModel item = cartItemsList.get(position);
-        if (item.getQuantity() > 1) {
-            int currentQuantity = item.getQuantity();
-            cartItemsList.set(position, new CartItemModel(
-                            item.getProductName(),
-                            item.getProductPrice(),
-                            item.getProductStatus(),
-                            item.getProductImageURL(),
-                            item.getProductDesc(),
-                            currentQuantity - 1,
-                            item.isChecked()
-                    )
-            );
-            cartProductAdapter.setData(cartItemsList, position);
-        }
+//        CartItem item = cartItemsList.get(position);
+//        if (item.getQuantity() > 1) {
+//            int currentQuantity = item.getQuantity();
+//            cartItemsList.set(position, new CartItem(
+//                            item.getProductName(),
+//                            item.getProductPrice(),
+//                            item.getProductStatus(),
+//                            item.getProductImageURL(),
+//                            item.getProductDesc(),
+//                            currentQuantity - 1,
+//                            item.isChecked()
+//                    )
+//            );
+//            cartProductAdapter.setData(cartItemsList, position);
+//        }
     }
 
     @Override
@@ -95,20 +113,20 @@ public class CartFragment extends Fragment implements CartItemListener {
     @Override
     public void onSelectCartItem(float price, int position, boolean isChecked) {
 
-        CartItemModel item = cartItemsList.get(position);
-        cartItemsList.set(position, new CartItemModel(
-                        item.getProductName(),
-                        item.getProductPrice(),
-                        item.getProductStatus(),
-                        item.getProductImageURL(),
-                        item.getProductDesc(),
-                        item.getQuantity(),
-                        isChecked
-                )
-        );
-        cartProductAdapter.setData(cartItemsList, position);
-        totalPrice += price;
-        binding.totalPriceTxt.setText(totalPrice.toString());
+//        CartItem item = cartItemsList.get(position);
+//        cartItemsList.set(position, new CartItem(
+//                        item.getProductName(),
+//                        item.getProductPrice(),
+//                        item.getProductStatus(),
+//                        item.getProductImageURL(),
+//                        item.getProductDesc(),
+//                        item.getQuantity(),
+//                        isChecked
+//                )
+//        );
+//        cartProductAdapter.setData(cartItemsList, position);
+//        totalPrice += price;
+//        binding.totalPriceTxt.setText(totalPrice.toString());
     }
 
     @Override
