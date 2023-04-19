@@ -2,6 +2,10 @@
     <string name="app_name">eCommerce</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fullname">FullName</string>
+    <string name="email">example@email.com</string>
+    <string name="phonenum">PhoneNum</string>
+    <string name="address">Address</string>
     <string-array name="productStatus">
         <item>Còn hàng</item>
         <item>Hết hàng</item>

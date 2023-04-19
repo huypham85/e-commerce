@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 
 import com.example.e_commerce.R;
 import com.example.e_commerce.databinding.FragmentProfileBinding;
-import com.example.e_commerce.network.model.request.CurrrentUserRequest;
+import com.example.e_commerce.network.service.ProfileService;
 
 import javax.inject.Inject;
 
 public class ProfileFragment extends Fragment {
-
+    @Inject
+    ProfileService profileService;
     private FragmentProfileBinding binding;
 
 

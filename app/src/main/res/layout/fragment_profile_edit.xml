@@ -5,7 +5,7 @@
     android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.profile.ProfileFragment">
+    tools:context=".screens.profile.ProfileEditFragment">
 
     <!-- Profile image-->
     <ImageView
@@ -38,7 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
         android:layout_marginEnd="25dp"
-        android:text="FullName"
+        android:text="@string/fullname"
+        android:inputType="text"
+        android:maxLines="1"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView" />
@@ -60,7 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
-        android:text="Email"
+        android:text="@string/email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_name" />
@@ -82,7 +86,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
-        android:text="Phone"
+        android:text="@string/phonenum"
+        android:inputType="phone"
+        android:maxLines="1"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_email" />
@@ -104,34 +110,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="25dp"
-        android:text="Address"
+        android:text="@string/address"
+        android:inputType="text"
+        android:maxLines="2"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_phone" />
 
     <Button
-        android:id="@+id/edit_user_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chỉnh sửa"
-        android:textAllCaps="false"
-        android:enabled="false"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address"/>
-
-    <Button
         android:id="@+id/update_user_info"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="Cập nhật"
         android:backgroundTint="@color/teal_200"
         android:textColor="@color/black"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="100dp"
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address"/>
 
     <Button
