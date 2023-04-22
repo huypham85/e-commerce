@@ -1,11 +1,11 @@
 package com.example.e_commerce.network.model.request;
 
 public class UpdateUserRequest {
+
     private String name;
     private String email;
     private String telephoneNumber;
     private String deliveryAddress;
-
     public UpdateUserRequest(String name, String email, String telephoneNumber, String deliveryAddress) {
         this.name = name;
         this.email = email;

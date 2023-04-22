@@ -12,9 +12,15 @@ import android.view.ViewGroup;
 
 import com.example.e_commerce.R;
 import com.example.e_commerce.databinding.FragmentProfileBinding;
+import com.example.e_commerce.network.model.response.ResponseAPI;
+import com.example.e_commerce.network.model.response.profile.CurrentUserResponse;
 import com.example.e_commerce.network.service.ProfileService;
 
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
     @Inject
@@ -33,6 +39,24 @@ public class ProfileFragment extends Fragment {
                 findNavController(getView()).navigate(R.id.action_profileFragment_to_profileEditFragment);
             }
         });
+
+        Call<ResponseAPI<CurrentUserResponse>> call = profileService.getUserInfo();
+
+        call.enqueue(new Callback<ResponseAPI<CurrentUserResponse>>() {
+            @Override
+            public void onResponse(Call<ResponseAPI<CurrentUserResponse>> call, Response<ResponseAPI<CurrentUserResponse>> response) {
+                if (response.isSuccessful()) {
+                    System.out.println(response.body().getData());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseAPI<CurrentUserResponse>> call, Throwable t) {
+
+            }
+        });
+
         return binding.getRoot();
     }
+
 }

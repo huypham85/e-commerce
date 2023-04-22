@@ -14,8 +14,7 @@ import retrofit2.http.Query;
 
 public interface ProfileService {
     @GET("user/me")
-    Call<ResponseAPI<CurrentUserResponse>> getUserInfo(@Query("name") String name, @Query("email") String email,
-                                                       @Query("phone") String phoneNumber, @Query("address") String address);
+    Call<ResponseAPI<CurrentUserResponse>> getUserInfo();
 
     @POST("user/update")
     Call<ResponseAPI<UpdateUserResponse>> updateUserInfo(@Body UpdateUserRequest updateUserRequest);
