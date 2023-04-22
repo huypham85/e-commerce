@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.e_commerce.databinding.FragmentCartBinding;
+import com.example.e_commerce.network.model.request.cart.AddToCartRequest;
 import com.example.e_commerce.network.model.response.ResponseAPI;
 import com.example.e_commerce.network.model.response.cart.CartItem;
 import com.example.e_commerce.network.service.CartService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,11 +26,12 @@ import retrofit2.Response;
 @AndroidEntryPoint
 public class CartFragment extends Fragment implements CartItemListener {
     List<CartItem> cartItemsList;
+    List<CartItem> selectedItems;
     CartProductAdapter cartProductAdapter;
     Float totalPrice;
-    private FragmentCartBinding binding;
     @Inject
     CartService cartService;
+    private FragmentCartBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,8 +53,8 @@ public class CartFragment extends Fragment implements CartItemListener {
             @Override
             public void onResponse(Call<ResponseAPI<List<CartItem>>> call, Response<ResponseAPI<List<CartItem>>> response) {
                 if (response.isSuccessful()) {
-                    List<CartItem> cartItems = response.body().getData();
-                    cartProductAdapter = new CartProductAdapter(cartItems, requireContext());
+                    cartItemsList = response.body().getData();
+                    cartProductAdapter = new CartProductAdapter(cartItemsList, requireContext());
                     cartProductAdapter.setCartItemListener(CartFragment.this);
                     binding.cartRcv.setLayoutManager(new LinearLayoutManager(requireContext()));
                     binding.cartRcv.setAdapter(cartProductAdapter);
@@ -69,51 +70,105 @@ public class CartFragment extends Fragment implements CartItemListener {
 
     @Override
     public void increaseQuantity(int position) {
-//        CartItem item = cartItemsList.get(position);
-//        int currentQuantity = item.getQuantity();
-//        cartItemsList.set(position, new CartItem(
-//                        item.getProductName(),
-//                        item.getProductPrice(),
-//                        item.getProductStatus(),
-//                        item.getProductImageURL(),
-//                        item.getProductDesc(),
-//                        currentQuantity + 1,
-//                        item.isChecked()
-//                )
-//        );
-//        cartProductAdapter.setData(cartItemsList, position);
+        CartItem item = cartItemsList.get(position);
+        long currentQuantity = item.getQuantity();
+        Call<ResponseAPI<String>> call = cartService.updateCartItem(
+                new AddToCartRequest(
+                        item.getId(),
+                        item.getProductId(),
+                        currentQuantity + 1
+                ));
+        call.enqueue(new Callback<ResponseAPI<String>>() {
+            @Override
+            public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
+                if (response.isSuccessful()) {
+                    cartItemsList.set(position, new CartItem(
+                                    currentQuantity + 1,
+                                    item.getProductCost(),
+                                    item.getProductId(),
+                                    item.getId(),
+                                    item.getProductName(),
+                                    item.getProductDescription(),
+                                    item.getStatus(),
+                                    item.getProductFilePath()
+                            )
+                    );
+                    cartProductAdapter.setData(cartItemsList, position);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseAPI<String>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
     public void decreaseQuantity(int position) {
-//        CartItem item = cartItemsList.get(position);
-//        if (item.getQuantity() > 1) {
-//            int currentQuantity = item.getQuantity();
-//            cartItemsList.set(position, new CartItem(
-//                            item.getProductName(),
-//                            item.getProductPrice(),
-//                            item.getProductStatus(),
-//                            item.getProductImageURL(),
-//                            item.getProductDesc(),
-//                            currentQuantity - 1,
-//                            item.isChecked()
-//                    )
-//            );
-//            cartProductAdapter.setData(cartItemsList, position);
-//        }
+        CartItem item = cartItemsList.get(position);
+        long currentQuantity = item.getQuantity();
+        if (currentQuantity > 1) {
+            Call<ResponseAPI<String>> call = cartService.updateCartItem(
+                    new AddToCartRequest(
+                            item.getId(),
+                            item.getProductId(),
+                            currentQuantity - 1
+                    ));
+            call.enqueue(new Callback<ResponseAPI<String>>() {
+                @Override
+                public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
+                    if (response.isSuccessful()) {
+                        cartItemsList.set(position, new CartItem(
+                                        currentQuantity - 1,
+                                        item.getProductCost(),
+                                        item.getProductId(),
+                                        item.getId(),
+                                        item.getProductName(),
+                                        item.getProductDescription(),
+                                        item.getStatus(),
+                                        item.getProductFilePath()
+                                )
+                        );
+                        cartProductAdapter.setData(cartItemsList, position);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseAPI<String>> call, Throwable t) {
+
+                }
+            });
+        }
+
     }
 
     @Override
     public void deleteItem(int position) {
-        cartItemsList.remove(position);
-        cartProductAdapter.setDataAfterRemove(cartItemsList);
-        cartProductAdapter.notifyItemRemoved(position);
+        CartItem item = cartItemsList.get(position);
+        Call<ResponseAPI<String>> call = cartService.deleteCartItem(item.getId());
+        call.enqueue(new Callback<ResponseAPI<String>>() {
+            @Override
+            public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
+                if (response.isSuccessful()) {
+                    cartItemsList.remove(position);
+                    cartProductAdapter.setDataAfterRemove(cartItemsList,position);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseAPI<String>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
     public void onSelectCartItem(float price, int position, boolean isChecked) {
 
-//        CartItem item = cartItemsList.get(position);
+        CartItem item = cartItemsList.get(position);
 //        cartItemsList.set(position, new CartItem(
 //                        item.getProductName(),
 //                        item.getProductPrice(),
@@ -125,8 +180,8 @@ public class CartFragment extends Fragment implements CartItemListener {
 //                )
 //        );
 //        cartProductAdapter.setData(cartItemsList, position);
-//        totalPrice += price;
-//        binding.totalPriceTxt.setText(totalPrice.toString());
+        totalPrice += price;
+        binding.totalPriceTxt.setText(totalPrice.toString());
     }
 
     @Override

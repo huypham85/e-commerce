@@ -1,23 +1,21 @@
 package com.example.e_commerce.network.model.request.cart;
 
-import android.util.Log;
-
 public class AddToCartRequest {
-    Long orderItemId;
+    Long oderItemId;
     long productId, quantity;
 
-    public AddToCartRequest(Long orderItemId, long productId, long quantity) {
-        this.orderItemId = orderItemId;
+    public AddToCartRequest(Long oderItemId, long productId, long quantity) {
+        this.oderItemId = oderItemId;
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    public Long getOrderItemId() {
-        return orderItemId;
+    public Long getOderItemId() {
+        return oderItemId;
     }
 
-    public void setOrderItemId(Long orderItemId) {
-        this.orderItemId = orderItemId;
+    public void setOderItemId(Long oderItemId) {
+        this.oderItemId = oderItemId;
     }
 
     public long getProductId() {

@@ -14,6 +14,17 @@ public class CartItem {
     private long status;
     private String productFilePath;
 
+    public CartItem(long quantity, long productCost, long productId, long id, String productName, String productDescription, long status, String productFilePath) {
+        this.quantity = quantity;
+        this.productCost = productCost;
+        this.productId = productId;
+        this.id = id;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.status = status;
+        this.productFilePath = productFilePath;
+    }
+
     public String getProductFilePath() {
         return productFilePath;
     }

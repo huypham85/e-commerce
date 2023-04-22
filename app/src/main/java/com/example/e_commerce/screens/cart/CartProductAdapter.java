@@ -60,9 +60,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         notifyItemChanged(position);
     }
 
-    void setDataAfterRemove(List<CartItem> list) {
+    void setDataAfterRemove(List<CartItem> list, int position) {
         setProducts(list);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
     }
 
     @NonNull
