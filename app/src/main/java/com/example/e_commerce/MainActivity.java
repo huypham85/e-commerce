@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.example.e_commerce.databinding.ActivityMainBinding;
 
+import java.util.Objects;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         setContentView(view);
         NavHostFragment navHostFragment = (NavHostFragment) (getSupportFragmentManager().findFragmentById(R.id.fragment));
