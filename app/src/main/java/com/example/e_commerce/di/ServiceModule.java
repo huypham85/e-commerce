@@ -3,6 +3,7 @@ package com.example.e_commerce.di;
 import com.example.e_commerce.network.service.AuthService;
 import com.example.e_commerce.network.service.CartService;
 import com.example.e_commerce.network.service.ProductService;
+import com.example.e_commerce.network.service.ProfileService;
 
 import javax.inject.Singleton;
 
@@ -25,6 +26,12 @@ public class ServiceModule {
     @Provides
     public AuthService provideAuthService(Retrofit retrofit) {
         return retrofit.create(AuthService.class);
+    }
+
+    @Singleton
+    @Provides
+    public ProfileService provideProfileService(Retrofit retrofit) {
+        return retrofit.create(ProfileService.class);
     }
 
     @Singleton

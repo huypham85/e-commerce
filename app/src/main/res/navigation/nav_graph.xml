@@ -39,14 +39,27 @@
         tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.e_commerce.screens.ProfileFragment"
+        android:name="com.example.e_commerce.screens.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_product_detail"
         android:id="@+id/productDetailFragment"
         android:name="com.example.e_commerce.screens.product.ProductDetailFragment"
         android:label="ProductDetailFragment" />
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.example.e_commerce.screens.profile.ProfileEditFragment"
+        android:label="ProfileEditFragment"
+        tools:layout="@layout/fragment_profile_edit">
+        <action
+            android:id="@+id/action_profileEditFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/orderFragment"
         android:name="com.example.e_commerce.screens.order.OrderFragment"
