@@ -4,7 +4,12 @@
 
 package com.example.e_commerce.network.model.response.cart;
 
-public class CartItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class CartItem implements Parcelable {
     private long quantity;
     private long productCost;
     private long productId;
@@ -87,5 +92,15 @@ public class CartItem {
 
     public void setStatus(long value) {
         this.status = value;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+
     }
 }
