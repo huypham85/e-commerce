@@ -1,5 +1,7 @@
 package com.example.e_commerce.screens.cart;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.e_commerce.R;
 import com.example.e_commerce.databinding.FragmentCartBinding;
 import com.example.e_commerce.network.model.request.cart.AddToCartRequest;
 import com.example.e_commerce.network.model.response.ResponseAPI;
@@ -42,6 +45,12 @@ public class CartFragment extends Fragment implements CartItemListener {
 
         totalPrice = 0f;
         binding.totalPriceTxt.setText(totalPrice.toString());
+        binding.orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findNavController(getView()).navigate(R.id.action_cartFragment_to_orderFragment);
+            }
+        });
 
 
         return binding.getRoot();
@@ -153,7 +162,7 @@ public class CartFragment extends Fragment implements CartItemListener {
             public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
                 if (response.isSuccessful()) {
                     cartItemsList.remove(position);
-                    cartProductAdapter.setDataAfterRemove(cartItemsList,position);
+                    cartProductAdapter.setDataAfterRemove(cartItemsList, position);
                 }
             }
 
