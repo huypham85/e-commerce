@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fullname">FullName</string>
+    <string name="email">example@email.com</string>
+    <string name="phonenum">PhoneNum</string>
+    <string name="address">Address</string>
+</resources>
