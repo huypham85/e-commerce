@@ -2,7 +2,23 @@
 
 package com.example.e_commerce.network.model.response.profile;
 
-public class CurrentUserResponse {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class CurrentUserResponse implements Parcelable {
+    public static final Creator<CurrentUserResponse> CREATOR = new Creator<CurrentUserResponse>() {
+        @Override
+        public CurrentUserResponse createFromParcel(Parcel in) {
+            return new CurrentUserResponse(in);
+        }
+
+        @Override
+        public CurrentUserResponse[] newArray(int size) {
+            return new CurrentUserResponse[size];
+        }
+    };
     private String name;
     private String email;
     private String telephoneNumber;
@@ -15,16 +31,55 @@ public class CurrentUserResponse {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    protected CurrentUserResponse(Parcel in) {
+        name = in.readString();
+        email = in.readString();
+        telephoneNumber = in.readString();
+        deliveryAddress = in.readString();
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getName() {
+        return name;
+    }
 
-    public String getTelephoneNumber() { return telephoneNumber; }
-    public void setTelephoneNumber(String telephoneNumber) { this.telephoneNumber = telephoneNumber; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getDeliveryAddress() { return deliveryAddress; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setDeliveryAddress(String deliveryAddress) { this.deliveryAddress = deliveryAddress; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeString(telephoneNumber);
+        dest.writeString(deliveryAddress);
+    }
 }
