@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.order.OrderFragment">
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/lineImg">
 
-    <TextView
-        android:id="@+id/orderTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Order"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/lineImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/img_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/orderTxt" />
-
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lineImg">
+        android:layout_height="match_parent"
+        tools:context=".screens.order.OrderFragment">
+
+        <TextView
+            android:id="@+id/orderTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/lineImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/img_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orderTxt" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/order_detail_bg"
             android:layout_margin="10dp"
+            android:background="@drawable/order_detail_bg"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             app:layout_constraintTop_toBottomOf="@id/lineImg">
@@ -147,6 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:maxHeight="200dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addressValue" />
 
@@ -173,47 +175,50 @@
                 app:layout_constraintStart_toEndOf="@id/costTxt"
                 app:layout_constraintTop_toBottomOf="@id/orderItemsRcv" />
 
-            <CheckBox
-                android:id="@+id/paidCheckbox"
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Đã thanh toán"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/costTxt" />
+                app:layout_constraintTop_toBottomOf="@id/costTxt">
 
-            <CheckBox
-                android:id="@+id/codCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thanh toán khi nhận hàng"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/paidCheckbox" />
+                <RadioButton
+                    android:id="@+id/paidCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Đã thanh toán" />
+
+                <RadioButton
+                    android:id="@+id/codCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thanh toán khi nhận hàng" />
+            </RadioGroup>
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/confirmOrderBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/codCheckbox"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="8dp"
                 android:text="Xác nhận đơn hàng"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/chatBtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toEndOf="@id/confirmOrderBtn"
-                app:layout_constraintTop_toTopOf="@id/confirmOrderBtn"
-                app:layout_constraintBottom_toBottomOf="@id/confirmOrderBtn"
-                android:background="@drawable/ic_chat"
                 android:layout_marginStart="16dp"
-                />
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_chat"
+                app:layout_constraintBottom_toBottomOf="@id/confirmOrderBtn"
+                app:layout_constraintStart_toEndOf="@id/confirmOrderBtn"
+                app:layout_constraintTop_toTopOf="@id/confirmOrderBtn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
