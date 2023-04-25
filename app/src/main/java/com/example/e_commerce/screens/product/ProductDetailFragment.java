@@ -71,24 +71,21 @@ public class ProductDetailFragment extends Fragment {
 
 
         }
-        binding.cartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Call<ResponseAPI<String>> call = cartService.addItemToCart(new AddToCartRequest(null,productModel.getId(),1));
-                call.enqueue(new Callback<ResponseAPI<String>>() {
-                    @Override
-                    public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(requireActivity(),"Added to cart", Toast.LENGTH_LONG).show();
-                        }
+        binding.cartBtn.setOnClickListener(v -> {
+            Call<ResponseAPI<String>> call = cartService.addItemToCart(new AddToCartRequest(null,productModel.getId(),1));
+            call.enqueue(new Callback<ResponseAPI<String>>() {
+                @Override
+                public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(requireActivity(),"Added to cart", Toast.LENGTH_LONG).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<ResponseAPI<String>> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ResponseAPI<String>> call, Throwable t) {
 
-                    }
-                });
-            }
+                }
+            });
         });
 
         return binding.getRoot();
