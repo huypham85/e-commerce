@@ -6,9 +6,16 @@ import com.example.e_commerce.network.model.response.ResponseAPI;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface OrderService {
     @POST("oder/create")
     Call<ResponseAPI<String>> createOrder(@Body CreateOrderRequest createOrderRequest);
+
+    //@GET("oder/get-all-by-user")
+    //Call<ResponseAPI> getOrderByUser();
+
+    //@GET("oder/details")
+    //Call<ResponseAPI> getOrderdetails();
 }
