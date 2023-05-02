@@ -8,12 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.e_commerce.R;
 import com.example.e_commerce.databinding.FragmentProfileBinding;
 import com.example.e_commerce.network.model.response.ResponseAPI;
+import com.example.e_commerce.network.model.response.UserOrderResponse;
 import com.example.e_commerce.network.model.response.profile.CurrentUserResponse;
+import com.example.e_commerce.network.service.OrderService;
 import com.example.e_commerce.network.service.ProfileService;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,12 +31,17 @@ import retrofit2.Response;
 public class ProfileFragment extends Fragment {
     @Inject
     ProfileService profileService;
+    @Inject
+    OrderService orderService;
+    List<UserOrderResponse> userOrderList;
     private FragmentProfileBinding binding;
+    UserOrderAdapter userOrderAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+        setupOrderList();
 
         binding.editUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +93,25 @@ public class ProfileFragment extends Fragment {
         });
 
         return binding.getRoot();
+    }
+
+    private void setupOrderList() {
+        Call<ResponseAPI<List<UserOrderResponse>>> call = orderService.getOrderByUser();
+
+        call.enqueue(new Callback<ResponseAPI<List<UserOrderResponse>>>() {
+            @Override
+            public void onResponse(Call<ResponseAPI<List<UserOrderResponse>>> call, Response<ResponseAPI<List<UserOrderResponse>>> response) {
+                userOrderList = response.body().getData();
+                userOrderAdapter = new UserOrderAdapter(userOrderList, requireContext());
+                binding.orderRcv.setLayoutManager(new LinearLayoutManager(requireContext()));
+                binding.orderRcv.setAdapter(userOrderAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseAPI<List<UserOrderResponse>>> call, Throwable t) {
+
+            }
+        });
     }
 
 }
