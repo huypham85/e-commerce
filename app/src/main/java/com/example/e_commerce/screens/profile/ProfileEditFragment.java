@@ -45,7 +45,7 @@ public class ProfileEditFragment extends Fragment {
             String email = getArguments().getString("email");
             String phone = getArguments().getString("telephoneNumber");
             String address = getArguments().getString("deliveryAddress");
-            updateUserRequest = new UpdateUserRequest(name, email, phone, address);
+
             binding.editName.setText(name);
             binding.editEmail.setText(email);
             binding.editPhone.setText(phone);
@@ -54,23 +54,15 @@ public class ProfileEditFragment extends Fragment {
         binding.updateUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String phone = binding.editPhone.getText().toString();
+                String address = binding.editAddress.getText().toString();
+                updateUserRequest = new UpdateUserRequest(phone, address);
                 Call<ResponseAPI<UpdateUserResponse>> call = profileService.updateUserInfo(updateUserRequest);
 
                 call.enqueue(new Callback<ResponseAPI<UpdateUserResponse>>() {
                     @Override
                     public void onResponse(Call<ResponseAPI<UpdateUserResponse>> call, Response<ResponseAPI<UpdateUserResponse>> response) {
-                        if (response.body() != null) {
-                            // Problem: Cannot return back to profile fragment ==> Data is not updated
-
-                            // Also check this part
-//                            UpdateUserResponse newUser = response.body().getData();
-
-                            // The code below must be wrong. It should be something similar to getText() but I haven't found a way.
-
-//                            binding.editName.setText(newUser.getName());
-//                            binding.editEmail.setText(newUser.getEmail());
-//                            binding.editPhone.setText(newUser.getTelephoneNumber());
-//                            binding.editAddress.setText(newUser.getDeliveryAddress());
+                        if (response.isSuccessful()) {
                             findNavController(getView()).navigate(R.id.action_profileEditFragment_to_profileFragment);
                         }
                     }

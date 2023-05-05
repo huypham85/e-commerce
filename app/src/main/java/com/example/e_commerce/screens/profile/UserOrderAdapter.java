@@ -11,32 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_commerce.R;
 import com.example.e_commerce.databinding.OrderStatusBinding;
-import com.example.e_commerce.network.model.response.UserOrderResponse;
+import com.example.e_commerce.network.model.response.order.UserOrderResponse;
 
 import java.util.List;
 
 public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.ItemViewHolder> {
+    public OnClickUserOrder onClickUserOrder;
     private List<UserOrderResponse> userOrderList;
     private Context context;
 
     public UserOrderAdapter(List<UserOrderResponse> userOrderList, Context context) {
         this.userOrderList = userOrderList;
-        this.context = context;
-    }
-
-    public List<UserOrderResponse> getUserOrderList() {
-        return userOrderList;
-    }
-
-    public void setUserOrderList(List<UserOrderResponse> userOrderList) {
-        this.userOrderList = userOrderList;
-    }
-
-    public Context getContext() {
-        return context;
-    }
-
-    public void setContext(Context context) {
         this.context = context;
     }
 
@@ -65,8 +50,14 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Item
         public ItemViewHolder(View itemView, OrderStatusBinding binding) {
             super(itemView);
             this.binding = binding;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickUserOrder.clickOrder(userOrderList.get(getAdapterPosition()));
+                }
+            });
         }
-        
+
         @SuppressLint("SetTextI18n")
         public void bind(UserOrderResponse order) {
             binding.userorderId.setText("Mã: " + order.getId());

@@ -1,4 +1,4 @@
-package com.example.e_commerce.network.model.response;
+package com.example.e_commerce.network.model.response.order;
 
 public class UserOrderResponse {
     private long id, status;

@@ -20,6 +20,7 @@ import com.example.e_commerce.databinding.FragmentOrderBinding;
 import com.example.e_commerce.network.model.request.order.CreateOrderRequest;
 import com.example.e_commerce.network.model.response.ResponseAPI;
 import com.example.e_commerce.network.model.response.cart.CartItem;
+import com.example.e_commerce.network.model.response.order.UserOrderResponse;
 import com.example.e_commerce.network.model.response.profile.CurrentUserResponse;
 import com.example.e_commerce.network.service.OrderService;
 import com.example.e_commerce.network.service.ProfileService;
@@ -60,6 +61,7 @@ public class OrderFragment extends Fragment {
     List<CartItem> cartItems;
     PaymentMethod paymentMethod = PaymentMethod.COD;
     CurrentUserResponse userInfo;
+    List<UserOrderResponse> orderList;
     @Inject
     ProfileService profileService;
     @Inject
@@ -73,6 +75,7 @@ public class OrderFragment extends Fragment {
         if (getArguments() != null) {
             cartItems = getArguments().getParcelableArrayList(CART_ITEMS);
             binding.costValue.setText(String.valueOf(getArguments().getFloat(TOTAL_PRICE)));
+            getOrderById(getArguments().getLong("id"));
             setUpOrderItems();
             setUpUserInfo();
         }
@@ -130,16 +133,14 @@ public class OrderFragment extends Fragment {
 
     private void setUpUserInfo() {
         Call<ResponseAPI<CurrentUserResponse>> call = profileService.getUserInfo();
-
         call.enqueue(new Callback<ResponseAPI<CurrentUserResponse>>() {
             @Override
-            public void onResponse(retrofit2.Call<ResponseAPI<CurrentUserResponse>> call, Response<ResponseAPI<CurrentUserResponse>> response) {
+            public void onResponse(Call<ResponseAPI<CurrentUserResponse>> call, Response<ResponseAPI<CurrentUserResponse>> response) {
                 if (response.isSuccessful()) {
-                    CurrentUserResponse currentUserResponse = response.body().getData();
-                    userInfo = currentUserResponse;
-                    binding.nameValue.setText(currentUserResponse.getName());
-                    binding.phoneValue.setText(currentUserResponse.getTelephoneNumber());
-                    binding.addressValue.setText(currentUserResponse.getDeliveryAddress());
+                    userInfo = response.body().getData();
+                    binding.nameValue.setText(userInfo.getName());
+                    binding.phoneValue.setText(userInfo.getTelephoneNumber());
+                    binding.addressValue.setText(userInfo.getDeliveryAddress());
                 }
             }
 
@@ -154,5 +155,25 @@ public class OrderFragment extends Fragment {
         orderItemAdapter = new OrderItemAdapter(cartItems, requireContext());
         binding.orderItemsRcv.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.orderItemsRcv.setAdapter(orderItemAdapter);
+    }
+
+    private void getOrderById(long position) {
+        UserOrderResponse order = orderList.get((int) position);
+        // ^^^^ problem this line
+        Call<ResponseAPI<List<CartItem>>> call = orderService.getOrderDetails(order.getId());
+        call.enqueue(new Callback<ResponseAPI<List<CartItem>>>() {
+            @Override
+            public void onResponse(Call<ResponseAPI<List<CartItem>>> call, Response<ResponseAPI<List<CartItem>>> response) {
+                if (response.isSuccessful()) {
+                    binding.codeValue.setText(String.valueOf(order.getId()));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseAPI<List<CartItem>>> call, Throwable t) {
+
+            }
+        });
     }
 }
