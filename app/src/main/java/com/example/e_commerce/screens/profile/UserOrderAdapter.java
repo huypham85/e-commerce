@@ -60,7 +60,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Item
 
         @SuppressLint("SetTextI18n")
         public void bind(UserOrderResponse order) {
-            binding.userorderId.setText("Mã: " + order.getId());
+            binding.userorderId.setText("Mã: " + order.getOderCode());
             if (order.getStatus() == 0)
                 binding.userorderStatus.setText("Đang xử lý");
             else

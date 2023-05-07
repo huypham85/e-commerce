@@ -1,7 +1,8 @@
 package com.example.e_commerce.network.service;
 
 import com.example.e_commerce.network.model.request.order.CreateOrderRequest;
-import com.example.e_commerce.network.model.response.cart.CartItem;
+import com.example.e_commerce.network.model.response.order.OrderDetail;
+import com.example.e_commerce.network.model.request.order.UpdateOrderRequest;
 import com.example.e_commerce.network.model.response.order.UserOrderResponse;
 import com.example.e_commerce.network.model.response.ResponseAPI;
 
@@ -21,8 +22,8 @@ public interface OrderService {
     Call<ResponseAPI<List<UserOrderResponse>>> getOrderByUser();
 
     @GET("oder/detail/{orderId}")
-    Call<ResponseAPI<List<CartItem>>> getOrderDetails(@Path("orderId") long id);
+    Call<ResponseAPI<OrderDetail>> getOrderDetails(@Path("orderId") long id);
 
-    //@POST("oder/update")
-    //Call<ResponseAPI<String>> updateOrder()
+    @POST("oder/update")
+    Call<ResponseAPI<UserOrderResponse>> updateOrder(@Body UpdateOrderRequest updateOrderRequest);
 }

@@ -2,9 +2,11 @@ package com.example.e_commerce.network.model.response.order;
 
 public class UserOrderResponse {
     private long id, status;
+    private String oderCode;
 
-    public UserOrderResponse(long id, long status) {
+    public UserOrderResponse(long id, String oderCode, long status) {
         this.id = id;
+        this.oderCode = oderCode;
         this.status = status;
     }
 
@@ -22,5 +24,13 @@ public class UserOrderResponse {
 
     public void setStatus(long status) {
         this.status = status;
+    }
+
+    public String getOderCode() {
+        return oderCode;
+    }
+
+    public void setOderCode(String oderCode) {
+        this.oderCode = oderCode;
     }
 }

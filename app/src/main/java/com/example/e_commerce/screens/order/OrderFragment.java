@@ -18,8 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.e_commerce.R;
 import com.example.e_commerce.databinding.FragmentOrderBinding;
 import com.example.e_commerce.network.model.request.order.CreateOrderRequest;
+import com.example.e_commerce.network.model.request.order.UpdateOrderRequest;
 import com.example.e_commerce.network.model.response.ResponseAPI;
 import com.example.e_commerce.network.model.response.cart.CartItem;
+import com.example.e_commerce.network.model.response.order.Oder;
+import com.example.e_commerce.network.model.response.order.OderItem;
+import com.example.e_commerce.network.model.response.order.OrderDetail;
 import com.example.e_commerce.network.model.response.order.UserOrderResponse;
 import com.example.e_commerce.network.model.response.profile.CurrentUserResponse;
 import com.example.e_commerce.network.service.OrderService;
@@ -58,10 +62,13 @@ enum PaymentMethod {
 public class OrderFragment extends Fragment {
     FragmentOrderBinding binding;
     OrderItemAdapter orderItemAdapter;
+    OrderItemListAdapter listAdapter;
     List<CartItem> cartItems;
     PaymentMethod paymentMethod = PaymentMethod.COD;
     CurrentUserResponse userInfo;
-    List<UserOrderResponse> orderList;
+    Long orderId;
+    OrderDetail detail;
+
     @Inject
     ProfileService profileService;
     @Inject
@@ -74,10 +81,15 @@ public class OrderFragment extends Fragment {
         binding = FragmentOrderBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
             cartItems = getArguments().getParcelableArrayList(CART_ITEMS);
-            binding.costValue.setText(String.valueOf(getArguments().getFloat(TOTAL_PRICE)));
-            getOrderById(getArguments().getLong("id"));
-            setUpOrderItems();
-            setUpUserInfo();
+            orderId = getArguments().getLong("id");
+            if (orderId != null)
+                getOrderById(orderId);
+            else if (cartItems != null) {
+                binding.costValue.setText(String.valueOf(getArguments().getFloat(TOTAL_PRICE)));
+                setUpOrderItems();
+                setUpUserInfo();
+                updateOrder();
+            }
         }
         binding.radioGroup.check(R.id.codCheckbox);
         binding.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -158,20 +170,56 @@ public class OrderFragment extends Fragment {
     }
 
     private void getOrderById(long position) {
-        UserOrderResponse order = orderList.get((int) position);
-        // ^^^^ problem this line
-        Call<ResponseAPI<List<CartItem>>> call = orderService.getOrderDetails(order.getId());
-        call.enqueue(new Callback<ResponseAPI<List<CartItem>>>() {
+        Call<ResponseAPI<OrderDetail>> call = orderService.getOrderDetails(position);
+        call.enqueue(new Callback<ResponseAPI<OrderDetail>>() {
             @Override
-            public void onResponse(Call<ResponseAPI<List<CartItem>>> call, Response<ResponseAPI<List<CartItem>>> response) {
+            public void onResponse(Call<ResponseAPI<OrderDetail>> call, Response<ResponseAPI<OrderDetail>> response) {
                 if (response.isSuccessful()) {
-                    binding.codeValue.setText(String.valueOf(order.getId()));
+                    detail = response.body().getData();
+                    Oder order = detail.getOder();
+                    List<OderItem> items = detail.getOderItem();
+                    long orderCost = 0;
+                    for (int i = 0; i < items.size(); i++)
+                        orderCost += (items.get(i).getProductCost() * items.get(i).getQuantity());
 
+                    binding.codeValue.setText(order.getOderCode());
+                    binding.phoneValue.setText(order.getTelephoneNumber());
+                    binding.addressValue.setText(order.getDeliveryAddress());
+
+                    listAdapter = new OrderItemListAdapter(items, requireContext());
+                    binding.orderItemsRcv.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    binding.orderItemsRcv.setAdapter(listAdapter);
+
+                    binding.costValue.setText(String.valueOf(orderCost));
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseAPI<List<CartItem>>> call, Throwable t) {
+            public void onFailure(Call<ResponseAPI<OrderDetail>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void updateOrder() {
+        CreateOrderRequest request = new CreateOrderRequest(null,
+                                                                userInfo.getTelephoneNumber(),
+                                                                userInfo.getDeliveryAddress(),
+                                                                paymentMethod.getNumVal(),
+                                                                cartItems.stream().map(CartItem::getId).collect(Collectors.toList()));
+        Call<ResponseAPI<UserOrderResponse>> call = orderService.updateOrder(new UpdateOrderRequest(request, 0));
+        call.enqueue(new Callback<ResponseAPI<UserOrderResponse>>() {
+            @Override
+            public void onResponse(Call<ResponseAPI<UserOrderResponse>> call, Response<ResponseAPI<UserOrderResponse>> response) {
+                if (response.isSuccessful()) {
+                    UserOrderResponse userOrder = response.body().getData();
+                    userOrder.setStatus(1);
+                    findNavController(getView()).navigate(R.id.action_orderFragment_to_profileFragment);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseAPI<UserOrderResponse>> call, Throwable t) {
 
             }
         });

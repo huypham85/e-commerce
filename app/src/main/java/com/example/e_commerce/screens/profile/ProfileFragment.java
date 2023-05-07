@@ -40,8 +40,6 @@ public class ProfileFragment extends Fragment implements OnClickUserOrder{
     private FragmentProfileBinding binding;
     UserOrderAdapter userOrderAdapter;
     CurrentUserResponse user;
-    FragmentOrderBinding orderBinding;
-    List<CartItem> itemList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,8 +118,6 @@ public class ProfileFragment extends Fragment implements OnClickUserOrder{
 
     public void clickOrder(UserOrderResponse order) {
         Bundle bundle = new Bundle();
-        // đẩy orderID từ Profile -> Order = Bundle
-        // Chuyển orderID qua -> Get order by ID
         bundle.putLong("id", order.getId());
         findNavController(getView()).navigate(R.id.action_profileFragment_to_orderFragment, bundle);
     }
