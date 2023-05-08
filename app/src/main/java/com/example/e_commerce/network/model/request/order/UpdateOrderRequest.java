@@ -1,7 +1,5 @@
 package com.example.e_commerce.network.model.request.order;
 
-import com.example.e_commerce.network.model.request.order.CreateOrderRequest;
-
 public class UpdateOrderRequest {
     private CreateOrderRequest request;
     private int status;

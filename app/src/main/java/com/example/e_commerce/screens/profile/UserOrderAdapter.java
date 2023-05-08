@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.e_commerce.R;
 import com.example.e_commerce.databinding.OrderStatusBinding;
-import com.example.e_commerce.network.model.response.order.UserOrderResponse;
+import com.example.e_commerce.network.model.response.order.Oder;
 
 import java.util.List;
 
 public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.ItemViewHolder> {
     public OnClickUserOrder onClickUserOrder;
-    private List<UserOrderResponse> userOrderList;
+    private List<Oder> userOrderList;
     private Context context;
 
-    public UserOrderAdapter(List<UserOrderResponse> userOrderList, Context context) {
+    public UserOrderAdapter(List<Oder> userOrderList, Context context) {
         this.userOrderList = userOrderList;
         this.context = context;
     }
@@ -35,7 +35,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Item
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        UserOrderResponse order = userOrderList.get(position);
+        Oder order = userOrderList.get(position);
         holder.bind(order);
     }
 
@@ -59,7 +59,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Item
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(UserOrderResponse order) {
+        public void bind(Oder order) {
             binding.userorderId.setText("Mã: " + order.getOderCode());
             if (order.getStatus() == 0)
                 binding.userorderStatus.setText("Đang xử lý");

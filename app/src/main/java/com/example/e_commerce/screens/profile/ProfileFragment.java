@@ -11,15 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.e_commerce.R;
-import com.example.e_commerce.databinding.FragmentOrderBinding;
 import com.example.e_commerce.databinding.FragmentProfileBinding;
 import com.example.e_commerce.network.model.response.ResponseAPI;
-import com.example.e_commerce.network.model.response.cart.CartItem;
-import com.example.e_commerce.network.model.response.order.UserOrderResponse;
+import com.example.e_commerce.network.model.response.order.Oder;
 import com.example.e_commerce.network.model.response.profile.CurrentUserResponse;
 import com.example.e_commerce.network.service.OrderService;
 import com.example.e_commerce.network.service.ProfileService;
-import com.example.e_commerce.screens.order.OrderItemAdapter;
 
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class ProfileFragment extends Fragment implements OnClickUserOrder{
     ProfileService profileService;
     @Inject
     OrderService orderService;
-    List<UserOrderResponse> userOrderList;
+    List<Oder> userOrderList;
     private FragmentProfileBinding binding;
     UserOrderAdapter userOrderAdapter;
     CurrentUserResponse user;
@@ -98,10 +95,10 @@ public class ProfileFragment extends Fragment implements OnClickUserOrder{
     }
 
     private void setupOrderList() {
-        Call<ResponseAPI<List<UserOrderResponse>>> call = orderService.getOrderByUser();
-        call.enqueue(new Callback<ResponseAPI<List<UserOrderResponse>>>() {
+        Call<ResponseAPI<List<Oder>>> call = orderService.getOrderByUser();
+        call.enqueue(new Callback<ResponseAPI<List<Oder>>>() {
             @Override
-            public void onResponse(Call<ResponseAPI<List<UserOrderResponse>>> call, Response<ResponseAPI<List<UserOrderResponse>>> response) {
+            public void onResponse(Call<ResponseAPI<List<Oder>>> call, Response<ResponseAPI<List<Oder>>> response) {
                 userOrderList = response.body().getData();
                 userOrderAdapter = new UserOrderAdapter(userOrderList, requireContext());
                 binding.orderRcv.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -110,15 +107,15 @@ public class ProfileFragment extends Fragment implements OnClickUserOrder{
             }
 
             @Override
-            public void onFailure(Call<ResponseAPI<List<UserOrderResponse>>> call, Throwable t) {
+            public void onFailure(Call<ResponseAPI<List<Oder>>> call, Throwable t) {
 
             }
         });
     }
 
-    public void clickOrder(UserOrderResponse order) {
+    public void clickOrder(Oder order) {
         Bundle bundle = new Bundle();
-        bundle.putLong("id", order.getId());
+        bundle.putLong("id", order.getid());
         findNavController(getView()).navigate(R.id.action_profileFragment_to_orderFragment, bundle);
     }
 

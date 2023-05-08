@@ -5,6 +5,7 @@ import static com.example.e_commerce.screens.cart.CartFragment.CompanionObject.C
 import static com.example.e_commerce.screens.cart.CartFragment.CompanionObject.TOTAL_PRICE;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import com.example.e_commerce.network.model.response.cart.CartItem;
 import com.example.e_commerce.network.model.response.order.Oder;
 import com.example.e_commerce.network.model.response.order.OderItem;
 import com.example.e_commerce.network.model.response.order.OrderDetail;
-import com.example.e_commerce.network.model.response.order.UserOrderResponse;
 import com.example.e_commerce.network.model.response.profile.CurrentUserResponse;
 import com.example.e_commerce.network.service.OrderService;
 import com.example.e_commerce.network.service.ProfileService;
@@ -64,10 +64,13 @@ public class OrderFragment extends Fragment {
     OrderItemAdapter orderItemAdapter;
     OrderItemListAdapter listAdapter;
     List<CartItem> cartItems;
+    List<OderItem> items;
     PaymentMethod paymentMethod = PaymentMethod.COD;
     CurrentUserResponse userInfo;
     Long orderId;
     OrderDetail detail;
+
+    int numCheck = 1;
 
     @Inject
     ProfileService profileService;
@@ -81,14 +84,12 @@ public class OrderFragment extends Fragment {
         binding = FragmentOrderBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
             cartItems = getArguments().getParcelableArrayList(CART_ITEMS);
+            binding.costValue.setText(String.valueOf(getArguments().getFloat(TOTAL_PRICE)));
             orderId = getArguments().getLong("id");
-            if (orderId != null)
-                getOrderById(orderId);
-            else if (cartItems != null) {
-                binding.costValue.setText(String.valueOf(getArguments().getFloat(TOTAL_PRICE)));
+            getOrderById(orderId);
+            if (cartItems != null) {
                 setUpOrderItems();
                 setUpUserInfo();
-                updateOrder();
             }
         }
         binding.radioGroup.check(R.id.codCheckbox);
@@ -98,14 +99,18 @@ public class OrderFragment extends Fragment {
                 RadioButton checkedRadioButton = binding.getRoot().findViewById(checkedId);
                 String checkedText = checkedRadioButton.getText().toString();
                 if (checkedText.equals("Đã thanh toán")) {
+                    numCheck = 1;
                     paymentMethod = PaymentMethod.PAID;
                 } else {
+                    numCheck = 2;
                     paymentMethod = PaymentMethod.COD;
                 }
                 Toast.makeText(requireContext(), "You selected: " + checkedText + checkedId, Toast.LENGTH_SHORT).show();
             }
         });
         binding.confirmOrderBtn.setOnClickListener(v -> {
+            if(cartItems == null)
+                cartItems = new ArrayList<>();
             switch (paymentMethod) {
                 case PAID:
                     createPaidOrder();
@@ -126,8 +131,11 @@ public class OrderFragment extends Fragment {
     }
 
     private void createCODOrder() {
-        Call<ResponseAPI<String>> call = orderService.createOrder(new CreateOrderRequest(null, userInfo.getTelephoneNumber(), userInfo.getDeliveryAddress(), paymentMethod.getNumVal(), cartItems.stream().map(CartItem::getId).collect(Collectors.toList())));
-
+        Call<ResponseAPI<String>> call =
+                orderService.createOrder(new CreateOrderRequest(null,
+                        userInfo.getTelephoneNumber(),
+                        userInfo.getDeliveryAddress(),
+                        paymentMethod.getNumVal(), cartItems.stream().map(CartItem::getId).collect(Collectors.toList())));
         call.enqueue(new Callback<ResponseAPI<String>>() {
             @Override
             public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
@@ -151,8 +159,8 @@ public class OrderFragment extends Fragment {
                 if (response.isSuccessful()) {
                     userInfo = response.body().getData();
                     binding.nameValue.setText(userInfo.getName());
-                    binding.phoneValue.setText(userInfo.getTelephoneNumber());
-                    binding.addressValue.setText(userInfo.getDeliveryAddress());
+//                    binding.phoneValue.setText(userInfo.getTelephoneNumber());
+//                    binding.addressValue.setText(userInfo.getDeliveryAddress());
                 }
             }
 
@@ -177,11 +185,12 @@ public class OrderFragment extends Fragment {
                 if (response.isSuccessful()) {
                     detail = response.body().getData();
                     Oder order = detail.getOder();
-                    List<OderItem> items = detail.getOderItem();
+                    items = detail.getOderItem();
                     long orderCost = 0;
                     for (int i = 0; i < items.size(); i++)
                         orderCost += (items.get(i).getProductCost() * items.get(i).getQuantity());
 
+                    setUpUserInfo();
                     binding.codeValue.setText(order.getOderCode());
                     binding.phoneValue.setText(order.getTelephoneNumber());
                     binding.addressValue.setText(order.getDeliveryAddress());
@@ -191,6 +200,7 @@ public class OrderFragment extends Fragment {
                     binding.orderItemsRcv.setAdapter(listAdapter);
 
                     binding.costValue.setText(String.valueOf(orderCost));
+                    updateOrder();
                 }
             }
 
@@ -202,24 +212,21 @@ public class OrderFragment extends Fragment {
     }
 
     private void updateOrder() {
-        CreateOrderRequest request = new CreateOrderRequest(null,
-                                                                userInfo.getTelephoneNumber(),
-                                                                userInfo.getDeliveryAddress(),
-                                                                paymentMethod.getNumVal(),
-                                                                cartItems.stream().map(CartItem::getId).collect(Collectors.toList()));
-        Call<ResponseAPI<UserOrderResponse>> call = orderService.updateOrder(new UpdateOrderRequest(request, 0));
-        call.enqueue(new Callback<ResponseAPI<UserOrderResponse>>() {
+        Oder order = detail.getOder();
+        items = detail.getOderItem();
+        CreateOrderRequest request = new CreateOrderRequest(null, order.getTelephoneNumber(), order.getDeliveryAddress(),
+                order.getStatusPayment(), items.stream().map(OderItem::getid).collect(Collectors.toList()));
+        Call<ResponseAPI<String>> call = orderService.updateOrder(new UpdateOrderRequest(request, order.getStatus()));
+        call.enqueue(new Callback<ResponseAPI<String>>() {
             @Override
-            public void onResponse(Call<ResponseAPI<UserOrderResponse>> call, Response<ResponseAPI<UserOrderResponse>> response) {
+            public void onResponse(Call<ResponseAPI<String>> call, Response<ResponseAPI<String>> response) {
                 if (response.isSuccessful()) {
-                    UserOrderResponse userOrder = response.body().getData();
-                    userOrder.setStatus(1);
-                    findNavController(getView()).navigate(R.id.action_orderFragment_to_profileFragment);
+                    order.setStatus(1);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseAPI<UserOrderResponse>> call, Throwable t) {
+            public void onFailure(Call<ResponseAPI<String>> call, Throwable t) {
 
             }
         });

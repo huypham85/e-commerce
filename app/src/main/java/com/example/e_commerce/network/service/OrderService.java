@@ -1,10 +1,10 @@
 package com.example.e_commerce.network.service;
 
 import com.example.e_commerce.network.model.request.order.CreateOrderRequest;
-import com.example.e_commerce.network.model.response.order.OrderDetail;
 import com.example.e_commerce.network.model.request.order.UpdateOrderRequest;
-import com.example.e_commerce.network.model.response.order.UserOrderResponse;
 import com.example.e_commerce.network.model.response.ResponseAPI;
+import com.example.e_commerce.network.model.response.order.Oder;
+import com.example.e_commerce.network.model.response.order.OrderDetail;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ public interface OrderService {
     Call<ResponseAPI<String>> createOrder(@Body CreateOrderRequest createOrderRequest);
 
     @GET("oder/get-all-by-user")
-    Call<ResponseAPI<List<UserOrderResponse>>> getOrderByUser();
+    Call<ResponseAPI<List<Oder>>> getOrderByUser();
 
     @GET("oder/detail/{orderId}")
     Call<ResponseAPI<OrderDetail>> getOrderDetails(@Path("orderId") long id);
 
     @POST("oder/update")
-    Call<ResponseAPI<UserOrderResponse>> updateOrder(@Body UpdateOrderRequest updateOrderRequest);
+    Call<ResponseAPI<String>> updateOrder(@Body UpdateOrderRequest updateOrderRequest);
 }

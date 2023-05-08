@@ -1,7 +1,7 @@
 package com.example.e_commerce.screens.profile;
 
-import com.example.e_commerce.network.model.response.order.UserOrderResponse;
+import com.example.e_commerce.network.model.response.order.Oder;
 
 public interface OnClickUserOrder {
-    void clickOrder(UserOrderResponse order);
+    void clickOrder(Oder order);
 }

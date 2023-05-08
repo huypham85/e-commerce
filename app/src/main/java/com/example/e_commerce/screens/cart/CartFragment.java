@@ -34,7 +34,7 @@ public class CartFragment extends Fragment implements CartItemListener {
     List<CartItem> cartItemsList;
     ArrayList<CartItem> selectedItems;
     CartProductAdapter cartProductAdapter;
-    Float totalPrice;
+    long totalPrice;
     @Inject
     CartService cartService;
     private FragmentCartBinding binding;
@@ -46,9 +46,9 @@ public class CartFragment extends Fragment implements CartItemListener {
         binding = FragmentCartBinding.inflate(inflater, container, false);
         setUpCartItems();
 
-        totalPrice = 0f;
+        totalPrice = 0;
         selectedItems = new ArrayList<>();
-        binding.totalPriceTxt.setText(totalPrice.toString());
+        binding.totalPriceTxt.setText(String.valueOf(totalPrice));
         binding.orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,7 +200,7 @@ public class CartFragment extends Fragment implements CartItemListener {
             selectedItems.remove(cartItemsList.get(position));
         }
         totalPrice += price;
-        binding.totalPriceTxt.setText(totalPrice.toString());
+        binding.totalPriceTxt.setText(String.valueOf(totalPrice));
     }
 
     @Override
