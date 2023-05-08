@@ -54,7 +54,7 @@ public class CartFragment extends Fragment implements CartItemListener {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(CART_ITEMS, selectedItems);
-                bundle.putFloat(TOTAL_PRICE, totalPrice);
+                bundle.putLong(TOTAL_PRICE, totalPrice);
                 if (!selectedItems.isEmpty()) {
                     System.out.println("list items:"+selectedItems.size());
                     findNavController(getView()).navigate(R.id.action_cartFragment_to_orderFragment, bundle);
@@ -191,7 +191,7 @@ public class CartFragment extends Fragment implements CartItemListener {
     }
 
     @Override
-    public void onSelectCartItem(float price, int position, boolean isChecked) {
+    public void onSelectCartItem(long price, int position, boolean isChecked) {
 
         CartItem item = cartItemsList.get(position);
         if (isChecked) {

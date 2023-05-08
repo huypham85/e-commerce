@@ -84,7 +84,7 @@ public class OrderFragment extends Fragment {
         binding = FragmentOrderBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
             cartItems = getArguments().getParcelableArrayList(CART_ITEMS);
-            binding.costValue.setText(String.valueOf(getArguments().getFloat(TOTAL_PRICE)));
+            binding.costValue.setText(String.valueOf(getArguments().getLong(TOTAL_PRICE)));
             orderId = getArguments().getLong("id");
             getOrderById(orderId);
             if (cartItems != null) {
