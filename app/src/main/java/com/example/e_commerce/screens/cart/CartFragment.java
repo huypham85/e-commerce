@@ -34,7 +34,7 @@ public class CartFragment extends Fragment implements CartItemListener {
     List<CartItem> cartItemsList;
     ArrayList<CartItem> selectedItems;
     CartProductAdapter cartProductAdapter;
-    Float totalPrice;
+    long totalPrice;
     @Inject
     CartService cartService;
     private FragmentCartBinding binding;
@@ -46,15 +46,15 @@ public class CartFragment extends Fragment implements CartItemListener {
         binding = FragmentCartBinding.inflate(inflater, container, false);
         setUpCartItems();
 
-        totalPrice = 0f;
+        totalPrice = 0;
         selectedItems = new ArrayList<>();
-        binding.totalPriceTxt.setText(totalPrice.toString());
+        binding.totalPriceTxt.setText(String.valueOf(totalPrice));
         binding.orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(CART_ITEMS, selectedItems);
-                bundle.putFloat(TOTAL_PRICE, totalPrice);
+                bundle.putLong(TOTAL_PRICE, totalPrice);
                 if (!selectedItems.isEmpty()) {
                     System.out.println("list items:"+selectedItems.size());
                     findNavController(getView()).navigate(R.id.action_cartFragment_to_orderFragment, bundle);
@@ -191,7 +191,7 @@ public class CartFragment extends Fragment implements CartItemListener {
     }
 
     @Override
-    public void onSelectCartItem(float price, int position, boolean isChecked) {
+    public void onSelectCartItem(long price, int position, boolean isChecked) {
 
         CartItem item = cartItemsList.get(position);
         if (isChecked) {
@@ -200,7 +200,7 @@ public class CartFragment extends Fragment implements CartItemListener {
             selectedItems.remove(cartItemsList.get(position));
         }
         totalPrice += price;
-        binding.totalPriceTxt.setText(totalPrice.toString());
+        binding.totalPriceTxt.setText(String.valueOf(totalPrice));
     }
 
     @Override

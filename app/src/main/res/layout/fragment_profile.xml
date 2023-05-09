@@ -7,12 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.profile.ProfileFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-    <!--All info is hard-coded, will come back later-->
         <!-- Profile image-->
         <ImageView
             android:id="@+id/imageView"
@@ -133,7 +133,7 @@
             app:layout_constraintTop_toBottomOf="@id/address"/>
 
         <TextView
-            android:id="@+id/order_status"
+            android:id="@+id/order_status_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tình trạng đơn hàng"
@@ -143,15 +143,15 @@
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/edit_user_info"/>
 
-        <!--Placeholder for Order Status-->
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderRcv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            app:layout_constraintTop_toBottomOf="@id/order_status"
-            />
+            app:layout_constraintTop_toBottomOf="@id/order_status_view"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,6 +6,6 @@ public interface CartItemListener {
     void increaseQuantity(int position);
     void decreaseQuantity(int position);
     void deleteItem(int position);
-    void onSelectCartItem(float price, int position, boolean isChecked);
+    void onSelectCartItem(long price, int position, boolean isChecked);
     void chooseCartItem(int position);
 }
